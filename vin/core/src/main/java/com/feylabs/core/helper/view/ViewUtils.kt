@@ -1,7 +1,7 @@
 package com.feylabs.core.helper.view
 
 import android.view.View
-import androidx.viewbinding.ViewBinding
+//import androidx.viewbinding.ViewBinding
 
 
 object ViewUtils {
@@ -25,19 +25,19 @@ object ViewUtils {
         isEnabled = false
     }
 
-    /**
-     * Shows this view binding by setting its visibility to VISIBLE.
-     */
-    fun <T : ViewBinding> T.visible(): T {
-        this.root.visibility = View.VISIBLE
-        return this
-    }
-
-    /**
-     * Hides this view binding by setting its visibility to GONE.
-     */
-    fun <T : ViewBinding> T.gone(): T {
-        this.root.visibility = View.GONE
-        return this
-    }
+//    /**
+//     * Shows this view binding by setting its visibility to VISIBLE.
+//     */
+//    fun <T : ViewBinding> T.visible(): T {
+//        this.root.visibility = View.VISIBLE
+//        return this
+//    }
+//
+//    /**
+//     * Hides this view binding by setting its visibility to GONE.
+//     */
+//    fun <T : ViewBinding> T.gone(): T {
+//        this.root.visibility = View.GONE
+//        return this
+//    }
 }
