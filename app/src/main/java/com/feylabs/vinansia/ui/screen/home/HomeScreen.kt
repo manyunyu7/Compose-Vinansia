@@ -1,5 +1,9 @@
 package com.feylabs.vinansia.ui.screen.home
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -9,7 +13,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -17,6 +25,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.feylabs.core.helper.date.UtilDate.convertIsoDateStringToIndonesianDateString
 import com.feylabs.snips.domain.uimodel.SnipsUIModel
+import com.feylabs.vinansia.R
+import com.feylabs.vinansia.ui.components.MenuTitle
 import com.feylabs.vinansia.ui.components.SnipsCard
 import com.feylabs.vinansia.ui.components.UnboxingCard
 import com.feylabs.vinansia.ui.theme.VinansiaTheme
@@ -32,7 +42,6 @@ fun HomeScreen(
         mutableStateOf<MutableList<SnipsUIModel>>(mutableListOf())
     }
 
-
     LaunchedEffect(true) {
         viewModel.getUnboxingStock()
         viewModel.getUnboxingSectoral()
@@ -46,31 +55,54 @@ fun HomeScreen(
             )
         }
     }
-
-    LazyColumn() {
-        item {
-            UnboxingSectoralSection(viewModel = viewModel)
+    Box(Modifier.background(color = Color.White)) {
+        LazyColumn(Modifier.padding(top = 55.dp)) {
+            item {
+                UnboxingSectoralSection(viewModel = viewModel)
+            }
+            item {
+                MenuTitle(
+                    title = "Unboxing Sektoral",
+                    modifier = modifier.padding(start = 10.dp, end = 10.dp, top = 10.dp)
+                )
+            }
+            items(snipList.value) { snipsUiModel ->
+                SnipsCard(
+                    modifier = modifier.padding(
+                        top = 10.dp,
+                        start = 10.dp,
+                        end = 10.dp
+                    ),
+                    title = snipsUiModel.title + "-"+snipsUiModel.id.toString(),
+                    image = snipsUiModel.imageUrl,
+                    date = snipsUiModel.description
+                )
+            }
+            item {
+                MenuTitle(
+                    title = "Unboxing Saham",
+                    modifier = modifier.padding(start = 10.dp, end = 10.dp, top = 10.dp)
+                )
+            }
+            item {
+                UnboxingStockSection(viewModel = viewModel)
+            }
         }
-        items(snipList.value) { snipsUiModel ->
-            SnipsCard(
-                modifier = modifier.padding(
-                    top = 10.dp,
-                    start = 10.dp,
-                    end = 10.dp
-                ),
-                title = snipsUiModel.title,
-                image = snipsUiModel.imageUrl,
-                date = snipsUiModel.description
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .shadow(elevation = 10.dp)
+                .background(color = Color.White)
+        ) {
+            Image(
+                modifier = modifier
+                    .align(Alignment.Center)
+                    .padding(top = 13.dp, bottom = 13.dp),
+                painter = painterResource(id = R.drawable.main_logo),
+                contentDescription = null
             )
         }
-        item {
-            UnboxingStockSection(viewModel = viewModel)
-        }
     }
-
-
-
-
 }
 
 @Composable
@@ -108,13 +140,12 @@ private fun UnboxingSectoralSection(
                                 start = 5.dp,
                                 end = 5.dp
                             ),
-                            title = unboxingUiModel.title,
+                            title = unboxingUiModel.id.toString()+"-"+ unboxingUiModel.title ,
                             image = unboxingUiModel.imageUrl,
-                            date = unboxingUiModel.date.convertIsoDateStringToIndonesianDateString()
+                            date = unboxingUiModel.description.convertIsoDateStringToIndonesianDateString()
                         )
                     }
                 }
-
             }
         }
     }
@@ -140,9 +171,9 @@ private fun UnboxingStockSection(
                                 start = 5.dp,
                                 end = 5.dp
                             ),
-                            title = unboxingUiModel.title,
+                            title = unboxingUiModel.id.toString()+"-"+ unboxingUiModel.title ,
                             image = unboxingUiModel.imageUrl,
-                            date = unboxingUiModel.date.convertIsoDateStringToIndonesianDateString()
+                            date = unboxingUiModel.description.convertIsoDateStringToIndonesianDateString()
                         )
                     }
                 }
