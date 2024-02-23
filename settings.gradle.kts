@@ -17,3 +17,4 @@ rootProject.name = "Vinansia"
 include(":app")
 include(":vin:snips")
 include(":vin:core")
+include(":vin:unboxing")
